@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'loginpage.urls'
+ROOT_URLCONF = 'badgebook.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'loginpage.wsgi.application'
+WSGI_APPLICATION = 'badgebook.wsgi.application'
 
 
 # Database
