@@ -10,7 +10,7 @@ import * as serviceWorker from './serviceWorker';
 import './styles/styles.css'
 
 ReactDOM.render(
-    <div>
+    <div className={'app-body'}>
         <SearchBar/>
         <ProfilePicture/>
         <UserBadges/>
