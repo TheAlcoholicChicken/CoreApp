@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import SearchBar from './components/search_bar'
 import UserBadges from './components/badge_section'
 import ProfilePicture from './components/profile_picture'
 import UserDescription from './components/user_descripion'
 import * as serviceWorker from './serviceWorker';
+import './styles/styles.css'
 
 ReactDOM.render(
     <div>
