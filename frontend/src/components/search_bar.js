@@ -6,7 +6,7 @@ class search_bar extends Component {
         return (
             <div className="search-bar">
                 <h1>
-                    <input type="text" className="form-control" id={'search-bar'}/>
+                    <input type="text" className="form-control" id={'search-bar'} placeholder={'Search for Users'}/>
                 </h1>
             </div>
         );

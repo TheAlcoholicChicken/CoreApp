@@ -1,17 +1,16 @@
 import React, {Component} from 'react';
 import '../styles/styles.css'
 
-
-class user_profile extends Component {
+class footer extends Component {
     render() {
         return (
-            <div className="profile-picture">
+            <div className={'footer-section'}>
                 <h1>
-                    This is for the user's profile image.
+                    This is the footer
                 </h1>
             </div>
         );
     }
 }
 
-export default user_profile;
+export default footer;

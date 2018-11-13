@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import '../styles/styles.css'
 
-class user_descripion extends Component {
+class user_description extends Component {
     render() {
         return (
             <div className="user-description">
@@ -12,4 +13,4 @@ class user_descripion extends Component {
     }
 }
 
-export default user_descripion;
+export default user_description;

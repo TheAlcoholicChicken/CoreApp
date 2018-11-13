@@ -5,3 +5,25 @@ body {
 .search-bar {
     width: 50ch;
 }
+
+.badge-section {
+    background-color: red;
+    border: solid black thick;
+}
+
+.user-description {
+    background-color: green;
+    border: solid black thick;
+}
+
+.profile-picture {
+    background-color: lightblue;
+    border: solid black thick;
+}
+
+.footer-section {
+    background-color: yellow;
+    border: solid black thick;
+}
+
+
