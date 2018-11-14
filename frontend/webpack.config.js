@@ -30,11 +30,11 @@ const config = {
       },
     ],
   },
-  // plugins: [
-  //   new HtmlWebpackPlugin({
-  //     template: SRC_DIR + '/index.html'
-  //   })
-  // ]
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: SRC_DIR + '/index.html'
+    })
+  ]
 };
 
 module.exports = config;
