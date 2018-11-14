@@ -25,7 +25,7 @@ SECRET_KEY = '2$nzcn^r%r=1*e9%y^a&qfzh%b$97%919@=3ck1j!t+=tdq4(8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['keuchsieu-core-app.herokuapp.com/', 'localhost', '127.0.0.1', '[::1]']
 
 
 # Application definition
