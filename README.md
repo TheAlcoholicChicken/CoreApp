@@ -1,2 +1,3 @@
-# group10repo
-the project that group 10 does
+# Badgebook front-end
+
+This is the front end for the badgebook app.
