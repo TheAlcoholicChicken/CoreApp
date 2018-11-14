@@ -1,4 +1,5 @@
 from django.db import models
+import json
 
 """ 
 from login.models import UsersCollection as UC
@@ -13,7 +14,6 @@ class UsersCollection(models.Model):
     last_name = models.CharField(max_length=100)
     profile_picture_url = models.URLField()  # ImageField? or standard char/text field
     description = models.TextField()
-
 
     def __str__(self):
         return self.user_id
@@ -50,3 +50,22 @@ class UsersCollection(models.Model):
             pass
         return row.id
 
+    # Returns JSON of user data from Users Collection
+    # Returns empty json with error text 'User does not exist' for no user
+    def get_user_json(user_id):
+        user = UsersCollection.objects.filter(user_id=user_id)
+        if user.exists() == False:
+            return json.dumps({
+                'error': 'User does not exist'
+            })
+        user = user[0]
+        return json.dumps({
+            'user_id': user.user_id,
+            'user_profile_link': user.user_profile_link,
+            'data' : {
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'profile_picture_url': user.profile_picture_url,
+                'description': user.description
+            }
+        })
