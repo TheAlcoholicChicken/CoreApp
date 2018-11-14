@@ -25,16 +25,16 @@ const config = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(jpg|png)$/,
+        test: /\.(jpg|png|ico)$/,
         use: ['file-loader']
       },
     ],
   },
-  // plugins: [
-  //   new HtmlWebpackPlugin({
-  //     template: SRC_DIR + '/index.html'
-  //   })
-  // ]
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: SRC_DIR + '/index.html'
+    })
+  ]
 };
 
 module.exports = config;

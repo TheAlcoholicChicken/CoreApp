@@ -103,5 +103,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# pycharm folder
+.idea/
+
 # ignoring static files
 static/

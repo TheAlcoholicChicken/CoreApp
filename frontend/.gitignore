@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# Ignore the public folder
+/public
+
 # production
 /build
 
