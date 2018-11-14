@@ -25,7 +25,7 @@ const config = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(jpg|png)$/,
+        test: /\.(jpg|png|ico)$/,
         use: ['file-loader']
       },
     ],

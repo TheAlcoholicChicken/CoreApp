@@ -1,5 +1,6 @@
 body {
     margin:auto;
+    text-align: center;
 }
 
 .search-bar {
@@ -29,5 +30,4 @@ body {
 .app-body {
     background-color: brown;
     margin: auto;
-
 }
