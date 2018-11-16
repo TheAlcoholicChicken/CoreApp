@@ -25,7 +25,7 @@ class search_bar extends Component {
     render() {
         return (
             <div className="search-bar">
-              <form onSubmit={this.handleSubmit}>
+              <form class="example" onSubmit={this.handleSubmit}>
                 <input type="text" placeholder="Search.." name="search" />
                 <button type="submit" value="Search"><i class="fa fa-search"></i></button>
               </form>
