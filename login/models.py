@@ -10,11 +10,11 @@ from login.models import UsersCollection as UC
 # Create your models here.
 class UsersCollection(models.Model):
     user_id = models.CharField(max_length=100, blank=False, unique=True)
-    user_profile_link = models.URLField()  # first_name + last_name(camelcase)
+    user_profile_link = models.URLField(null=True)  # first_name + last_name(camelcase)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    profile_picture_url = models.URLField()  # ImageField? or standard char/text field
-    description = models.TextField()
+    profile_picture_url = models.URLField(null=True)  # ImageField? or standard char/text field
+    description = models.TextField(null=True)
 
     def __str__(self):
         return self.user_id
