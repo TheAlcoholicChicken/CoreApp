@@ -1,7 +1,8 @@
 from django.db import models
 import json
 
-""" 
+"""
+for debugging purposes in terminal, use below to interact with DB 
 from login.models import UsersCollection as UC
 """
 
@@ -23,7 +24,7 @@ class UsersCollection(models.Model):
 
     # Grabs users by filtering rows in DB for those that match user_id, first_name, last_name
     # Second parameter sets if string list of names to be returned, else QuerySet
-    def search_user(terms, names_only):
+    def search_user(terms, names_only=True):
         if (names_only == True):
             query = UsersCollection.objects.filter(
                 user_id__icontains=terms) | UsersCollection.objects.filter(
