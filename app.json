@@ -1,0 +1,22 @@
+{
+  "name": "Core App",
+  "description": "Core app of group assignment",
+  "image": "heroku/python",
+  "repository": "https://github.com/TheAlcoholicChicken/CoreApp.git",
+  "keywords": ["python", "django" ],
+  "addons": [ "heroku-postgresql" ],
+  "env": {
+    "SECRET_KEY": {
+      "description": "2$nzcn^r%r=1*e9%y^a&qfzh%b$97%919@=3ck1j!t+=tdq4(8",
+      "generator": "secret"
+    }
+  },
+  "environments": {
+    "test": {
+      "scripts": {
+        "test-setup": "python manage.py collectstatic --noinput",
+        "test": "python manage.py test"
+      }
+    }
+  }
+}
