@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name="index"),
-    re_path(r'^user/', views.api, name="apicall")
+    re_path(r'^user/createaccount/', views.createAccount, name="createAccount"),
+    re_path(r'^user/', views.api, name="apicall"),
 ]

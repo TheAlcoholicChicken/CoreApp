@@ -48,7 +48,7 @@ class UsersCollection(models.Model):
                                   last_name=last_name)
             row.save()
         except Exception:
-            pass
+            return 'DB ERROR' + Exception
         return row.id
 
     # Returns JSON of user data from Users Collection
