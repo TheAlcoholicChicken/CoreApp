@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import UsersCollection
+from .forms import UserForm
 
 
 # Create your views here.
@@ -16,9 +17,12 @@ def index(request):
 def api(request):
     reqpath = str(request.path)
     if request.method == 'POST':
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        print(reqpath, body)
-        result = '\n'.join(UsersCollection.search_user(body['userid']))
-        print(result)
-    return JsonResponse({'response': result})
+        form = UserForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            search = form.cleaned_data.get('search')
+            result = '\n'.join(UsersCollection.search_user(search))
+            print(result)
+            return JsonResponse({'response': result})
+        else:
+            return JsonResponse({'reponse': 'invalid form'})
