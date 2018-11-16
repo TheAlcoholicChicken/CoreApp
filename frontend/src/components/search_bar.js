@@ -5,9 +5,11 @@ class search_bar extends Component {
     render() {
         return (
             <div className="search-bar">
-                <h1>
-                    <input type="text" className="form-control" id={'search-bar'} placeholder={'Search for Users'}/>
-                </h1>
+
+              <form class="example" action="">
+                <input type="text" placeholder="Search.." name="search" />
+                <button type="submit"><i class="fa fa-search"></i></button>
+              </form>
             </div>
         );
     }
