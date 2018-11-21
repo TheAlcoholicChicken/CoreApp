@@ -17,7 +17,7 @@ def index(request):
 def api(request):
     print(str(request.path))
     if request.method == 'POST':
-        form = F.UserForm(request.POST)
+        form = F.SearchForm(request.POST)
         print(form)
         if form.is_valid():
             print(form.cleaned_data)

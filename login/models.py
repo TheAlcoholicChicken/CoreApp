@@ -1,5 +1,5 @@
 from django.db import models
-import json
+import json, time
 
 """
 for debugging purposes in terminal, use below to interact with DB 
@@ -7,14 +7,19 @@ from login.models import UsersCollection as UC
 """
 
 
+def generate_default():
+    return (time.time() * 1e3).__str__()[3:13]
+
+
 # Create your models here.
 class UsersCollection(models.Model):
-    user_id = models.CharField(max_length=100, blank=False, unique=True)
+    user_id = models.CharField(max_length=100, blank=False, unique=True, default=generate_default)
     user_profile_link = models.URLField(null=True)  # first_name + last_name(camelcase)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     profile_picture_url = models.URLField(null=True)  # ImageField? or standard char/text field
     description = models.TextField(null=True)
+
 
     def __str__(self):
         return self.user_id
@@ -44,8 +49,10 @@ class UsersCollection(models.Model):
     # Returns ID (index) of user added to DB
     def set_user(user_id, first_name, last_name):
         try:
-            row = UsersCollection(user_id=user_id, first_name=first_name,
+            row = UsersCollection(first_name=first_name,
                                   last_name=last_name)
+            if user_id != '':
+                row.user_id = user_id
             row.save()
         except Exception:
             return 'DB ERROR' + Exception
