@@ -20,7 +20,6 @@ class UsersCollection(models.Model):
     profile_picture_url = models.URLField(null=True)  # ImageField? or standard char/text field
     description = models.TextField(null=True)
 
-
     def __str__(self):
         return self.user_id
 
