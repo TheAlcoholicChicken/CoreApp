@@ -13,15 +13,25 @@ def generate_default():
 
 # Create your models here.
 class UsersCollection(models.Model):
-    user_id = models.CharField(max_length=100, blank=False, unique=True, default=generate_default)
-    user_profile_link = models.URLField(null=True)  # first_name + last_name(camelcase)
+    user_id = models.CharField(max_length=100, blank=False, unique=True,
+                               default=generate_default)
+    user_profile_link = models.URLField(
+        null=True)  # first_name + last_name(camelcase)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    profile_picture_url = models.URLField(null=True)  # ImageField? or standard char/text field
+    profile_picture_url = models.URLField(
+        null=True)  # ImageField? or standard char/text field
     description = models.TextField(null=True)
 
     def __str__(self):
         return self.user_id
+
+    def GET_FIELD(self):
+        fields = UsersCollection._meta.get_fields()
+        short_fields = []
+        for i in fields:
+            short_fields.append(i.__str__().split('.')[-1])
+        return short_fields
 
     def get_full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
@@ -46,12 +56,18 @@ class UsersCollection(models.Model):
 
     # Add new user to DB for sign-up. Auto-populate links/urls
     # Returns ID (index) of user added to DB
-    def set_user(user_id, first_name, last_name):
+    def set_user(data):
         try:
-            row = UsersCollection(first_name=first_name,
-                                  last_name=last_name)
-            if user_id != '':
-                row.user_id = user_id
+            row = UsersCollection(user_id=generate_default().__str__(),
+                                  first_name=data.get('firstname'),
+                                  last_name=data.get('lastname'),
+                                  user_profile_link=data.get(
+                                      'user_profile_link'),
+                                  profile_picture_url=data.get(
+                                      'profile_picture_url'),
+                                  description=data.get('description'))
+            if data.get('userid') != '':
+                row.user_id = data.get('user_id')
             row.save()
         except Exception:
             return 'DB ERROR' + Exception
@@ -69,7 +85,7 @@ class UsersCollection(models.Model):
         return json.dumps({
             'user_id': user.user_id,
             'user_profile_link': user.user_profile_link,
-            'data' : {
+            'data': {
                 'first_name': user.first_name,
                 'last_name': user.last_name,
                 'profile_picture_url': user.profile_picture_url,

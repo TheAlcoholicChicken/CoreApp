@@ -15,7 +15,7 @@ __LOGIN_URL = 'https://management-system-api.herokuapp.com/'
 
 # Create your views here.
 def index(request):
-    #TODO: render login.html
+    # TODO: render login.html
     return render(request, 'login.html')
 
 
@@ -36,6 +36,7 @@ def api(request):
         else:
             return JsonResponse({'response': 'invalid form'})
 
+
 @csrf_exempt
 def login(request):
     print(str(request.path))
@@ -44,13 +45,15 @@ def login(request):
         if form.is_valid():
             print(form.cleaned_data)
             response = requests.post(__LOGIN_URL,
-                                    body={'user_email': form.user_email,
-                                          'password': form.password,
-                                          'token': __TOKEN})
-            if response.json()['success'] == 'True':  # if success, redirect to landing page
+                                     body={'user_email': form.user_email,
+                                           'password': form.password,
+                                           'token': __TOKEN})
+            if response.json()[
+                'success'] == 'True':  # if success, redirect to landing page
                 return render(request, 'index.html')
             else:
-                return JsonResponse({'response' : response.json()['success']})
+                return JsonResponse({'response': response.json()['success']})
+
 
 @csrf_exempt
 def createAccount(request):
@@ -59,10 +62,8 @@ def createAccount(request):
         form = F.AddUserForm(request.POST)
         if form.is_valid():
             print(form.cleaned_data)
-            userid = form.cleaned_data.get('userid')
-            firstname = form.cleaned_data.get('firstname')
-            lastname = form.cleaned_data.get('lastname')
-            result = UsersCollection.set_user(userid, firstname, lastname)
-            return JsonResponse({'response': result})
+            result = UsersCollection.set_user(form.cleaned_data)
+            return JsonResponse(
+                {'response': result, 'message': 'User row index (Debugging)'})
         else:
             return JsonResponse({'response': 'invalid form'})
