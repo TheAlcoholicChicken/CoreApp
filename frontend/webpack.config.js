@@ -1,15 +1,18 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const DIST_DIR = path.resolve(__dirname, "public");
 const SRC_DIR = path.resolve(__dirname, "src");
 
 const config = {
-  entry: SRC_DIR + "/index.js", // configure which file to start
+  entry: {
+      index : SRC_DIR + "/index.js",
+      login   : SRC_DIR + "/login.js"
+  }, // configure which file to start
   output: {
     path: DIST_DIR,
-    filename: "bundle.js",
+    filename: '[name].js',
   },
   module:{
     rules: [
@@ -33,7 +36,11 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: SRC_DIR + '/index.html'
-    })
+    }),
+    new CopyWebpackPlugin([
+    // relative path is from src
+    { from: SRC_DIR + '/favicon.ico' }, // <- your path to favicon
+  ])
   ]
 };
 
