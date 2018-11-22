@@ -12,10 +12,11 @@ from . import forms as F
 __TOKEN = 'G5NIJdnKD7CyuPsy1zi4euipxnNhc0WJwGd8qJHS4XA'
 __LOGIN_URL = 'https://management-system-api.herokuapp.com/'
 
+
 # Create your views here.
 def index(request):
     #TODO: render login.html
-    return render(request, 'index.html')
+    return render(request, 'login.html')
 
 
 @csrf_exempt
@@ -46,7 +47,7 @@ def login(request):
                                     body={'user_email': form.user_email,
                                           'password': form.password,
                                           'token': __TOKEN})
-            if response.json()['success'] == 'True':
+            if response.json()['success'] == 'True':  # if success, redirect to landing page
                 return render(request, 'index.html')
             else:
                 return JsonResponse({'response' : response.json()['success']})
