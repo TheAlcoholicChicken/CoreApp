@@ -55,6 +55,18 @@ def login(request):
                 return JsonResponse({'response': response.json()['success']})
 
 
+#TODO Implement user details using user_id (GET requests)
+@csrf_exempt
+def getUserDetail(request):
+    return JsonResponse({'response': 'Not implemented'})
+
+
+#TODO Implement badges requets handling
+@csrf_exempt
+def getUserBadges(request):
+    return JsonResponse({'response': 'Not implemented'})
+
+
 @csrf_exempt
 def createAccount(request):
     print(str(request.path))
