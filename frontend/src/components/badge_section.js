@@ -6,9 +6,8 @@ class Badge extends React.Component {
     render() {
         return (
             <div className={'badge-list'}>
-                <img src={props.foobar}/>
+                {/*<img src={"Hello World"}/>*/}
                 <button className={'app-badge'}>
-                    {this.props.valus}
                 </button>
             </div>
         );
@@ -20,7 +19,7 @@ class user_badge extends Component {
     constructor() {
         super();
         this.state = {
-            badges: []
+            badge: []
         }
     }
 
@@ -28,19 +27,23 @@ class user_badge extends Component {
         axios.post('user/get_badges', {
             user_id : 'something'
         }).then(
-            response=> this.setState({badges: response.badges})
-        )
+            response => this.setState({badge: response.badges})
+        ).catch(error => {
+            console.log(error)
+        });
     }
 
-    static renderBadge() {
-        return <Badge value={props.badges[0].image}/>
+    renderBadge() {
+
     }
 
     render() {
         return (
             <div className="badge-section">
                 <h1>
-                    This is for the user's badges.
+                    {this.renderBadge()}
+                    {this.renderBadge()}
+                    {this.renderBadge()}
                 </h1>
             </div>
         );
