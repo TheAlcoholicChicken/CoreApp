@@ -18,25 +18,7 @@ def index(request):
     # TODO: render login.html
     return render(request, 'login.html')
 
-
-@csrf_exempt
-def api(request):
-    print(str(request.path))
-    if request.method == 'POST':
-        form = F.SearchForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            search = form.cleaned_data.get('search')
-            result = '\n'.join(UsersCollection.search_user(search))
-            if result == '':
-                return JsonResponse({'response': 'no users'})
-            else:
-                print(result)
-                return JsonResponse({'response': result})
-        else:
-            return JsonResponse({'response': 'invalid form'})
-
-
+#TODO Implement login request and response
 @csrf_exempt
 def login(request):
     print(str(request.path))
@@ -55,7 +37,6 @@ def login(request):
                 return JsonResponse({'response': response.json()['success']})
 
 
-#TODO Implement user details using user_id (GET requests)
 @csrf_exempt
 def getUserDetail(request):
     print(str(request.path))
