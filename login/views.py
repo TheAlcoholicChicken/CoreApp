@@ -26,15 +26,21 @@ def login(request):
     if request.method == 'POST':
         form = F.LoginUserForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
+            print('login|form.cleaned_data',form.cleaned_data)
+            form = form.cleaned_data
             response = requests.post(__LOGIN_URL,
-                                     data={'user_email': form.user_email,
-                                           'password': form.password,
+                                     data={'user_email': form['email'],
+                                           'password': form['password'],
                                            'token': __TOKEN})
-            if response.json()['success'] == 'True':  # if success, redirect to landing page
-                return render(request, 'index.html')
+            if response.status_code == 400:
+                return JsonResponse({'response': response.json()['msg']})
             else:
-                return JsonResponse({'response': response.json()['success']})
+                print('login|response.json()', response.json()['user_id'])
+                return render(request, 'index.html')
+        else:
+            return JsonResponse({'response': 'invalid form'})
+    else:
+        return JsonResponse({'response': 'Not a post request'})
 
 
 @csrf_exempt
