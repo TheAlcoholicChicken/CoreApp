@@ -63,19 +63,17 @@ def getUserDetail(request):
         userid = request.path.split('/')[-1]
         print('User data to retrieve:', userid)
         return JsonResponse(UsersCollection.get_user_json(userid))
-    if request.method == 'POST':
-        form = F.SearchForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            search = form.cleaned_data.get('search')
-            result = '\n'.join(UsersCollection.search_user(search))
-            if result == '':
-                return JsonResponse({'response': 'no users'})
-            else:
-                print(result)
-                return JsonResponse({'response': result})
+    elif request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        print('getUserDetail|request.body:', data)
+        result = '\n'.join(UsersCollection.search_user(data['search']))
+        if result == '':
+            return JsonResponse({'response': 'no users'})
         else:
-            return JsonResponse({'response': 'invalid form'})
+            print(result)
+            return JsonResponse({'response': result})
+    else:
+        return JsonResponse({'response': 'invalid form'})
 
 
 #TODO Implement badges requets handling
@@ -89,7 +87,7 @@ def createAccount(request):
     print(str(request.path))
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
-        print('request body:', data)
+        print('createAccount|request.body:', data)
         result, updated = UsersCollection.set_user(data)
         return JsonResponse(
             {'response': result, 'message': 'User row index (Debugging)', 'update': updated})
