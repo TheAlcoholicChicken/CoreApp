@@ -20,7 +20,7 @@ class user_description extends Component {
     componentDidMount() {
         axios.get('user/something').then(
             response => this.setState({
-                userId : response.data.user_id,
+                userId : response.user_id,
                 firstName : response.data.first_name,
                 lastName : response.data.last_name,
                 profilePicture : response.data.profile_picture,

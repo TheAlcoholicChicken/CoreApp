@@ -34,15 +34,15 @@ class user_badge extends Component {
     }
 
     renderBadge() {
-
+        this.state.badge.map((item, index) => {
+            return <li key={index}>{item}</li>
+        });
     }
 
     render() {
         return (
             <div className="badge-section">
                 <h1>
-                    {this.renderBadge()}
-                    {this.renderBadge()}
                     {this.renderBadge()}
                 </h1>
             </div>
