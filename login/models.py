@@ -46,7 +46,7 @@ class UsersCollection(models.Model):
                 last_name__icontains=terms)
             query_list = []
             for row in query:
-                query_list.append('%s %s' % (row.first_name, row.last_name))
+                query_list.append('%s %s %s' % (row.user_id, row.first_name, row.last_name))
             return query_list
         else:
             return UsersCollection.objects.filter(
@@ -82,7 +82,7 @@ class UsersCollection(models.Model):
                 'error': 'User does not exist'
             })
         user = user[0]
-        return json.dumps({
+        return {
             'user_id': user.user_id,
             'user_profile_link': user.user_profile_link,
             'data': {
@@ -91,4 +91,4 @@ class UsersCollection(models.Model):
                 'profile_picture_url': user.profile_picture_url,
                 'description': user.description
             }
-        })
+        }

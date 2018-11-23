@@ -61,7 +61,8 @@ def getUserDetail(request):
     print(str(request.path))
     if request.method == 'GET':
         userid = request.path.split('/')[-1]
-        return JsonResponse({})
+        print('User data to retrieve:', userid)
+        return JsonResponse(UsersCollection.get_user_json(userid))
     if request.method == 'POST':
         form = F.SearchForm(request.POST)
         if form.is_valid():
