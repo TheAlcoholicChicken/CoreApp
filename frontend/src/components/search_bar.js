@@ -1,33 +1,33 @@
 import React, {Component} from 'react';
 import '../styles/styles.css'
+import axios from 'axios'
 
 class search_bar extends Component {
     constructor() {
       super();
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.setQuery = this.setQuery.bind(this);
+      this.state = {
+          searchQuery : ''
+      }
     }
 
     handleSubmit(event) {
-      event.preventDefault();
-      const data = new FormData(event.target);
+        console.log(this.state.searchQuery);
+        let data = this.state.searchQuery;
+        axios.post('/user/', {'search' : data}).then(response => this.setState({data: response.response}))
+    }
 
-      fetch('/user/', {
-        method: 'POST',
-        body: data,
-      }).then((response) => {
-         return response.json()
-      }).then((json) => {
-          this.setState({data: json})
-          alert(json['response'])
-      })
+    setQuery(event) {
+        this.setState({searchQuery : event.target.value})
     }
 
     render() {
         return (
             <div className="search-bar">
-              <form class="example" onSubmit={this.handleSubmit}>
-                <input type="text" placeholder="Search.." name="search" />
-                <button type="submit" value="Search"><i class="fa fa-search"></i></button>
+              <form className="example" onSubmit={this.handleSubmit}>
+                <input id='search' value={this.state.searchQuery} type="text" placeholder="Search.." name="search" onChange={this.setQuery}/>
+                <button type={'submit'}><i className="fa fa-search"></i></button>
               </form>
             </div>
         );

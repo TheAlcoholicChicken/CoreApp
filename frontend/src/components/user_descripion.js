@@ -10,27 +10,36 @@ class user_description extends Component {
             firstName : '',
             lastName : '',
             profilePicture : '',
-            userDescription : ''
+            userDescription : '',
+            userId : ''
         }
 
     }
 
+
     componentDidMount() {
         axios.get('user/something').then(
             response => this.setState({
+                userId : response.user_id,
                 firstName : response.data.first_name,
                 lastName : response.data.last_name,
                 profilePicture : response.data.profile_picture,
                 userDescription : response.data.description
             })
-        )
+        ).catch(error => {
+            console.log(error);
+        });
     }
+
     render() {
         return (
             <div className="user-description">
-                <h1>
-                    This is for the user's description
-                </h1>
+                <div className={'user-name'}>
+                    <h1>{this.state.firstName} {this.state.lastName}</h1>
+                </div>
+                <div className={'description'}>
+                    {this.state.userDescription}
+                </div>
             </div>
         );
     }
