@@ -58,7 +58,23 @@ def login(request):
 #TODO Implement user details using user_id (GET requests)
 @csrf_exempt
 def getUserDetail(request):
-    return JsonResponse({'response': 'Not implemented'})
+    print(str(request.path))
+    if request.method == 'GET':
+        userid = request.path.split('/')[-1]
+        return JsonResponse({})
+    if request.method == 'POST':
+        form = F.SearchForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            search = form.cleaned_data.get('search')
+            result = '\n'.join(UsersCollection.search_user(search))
+            if result == '':
+                return JsonResponse({'response': 'no users'})
+            else:
+                print(result)
+                return JsonResponse({'response': result})
+        else:
+            return JsonResponse({'response': 'invalid form'})
 
 
 #TODO Implement badges requets handling
