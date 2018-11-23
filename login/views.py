@@ -23,7 +23,7 @@ def index(request):
 @csrf_exempt
 def login(request):
     print(str(request.path))
-    if requests.method == 'POST':
+    if request.method == 'POST':
         form = F.LoginUserForm(request.POST)
         if form.is_valid():
             print(form.cleaned_data)

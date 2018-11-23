@@ -37,11 +37,12 @@ const config = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: SRC_DIR + '/index.html',
-      inject:true
+      inject:false
     }),
     new HtmlWebpackPlugin({
       filename: 'login.html',
-      template: SRC_DIR + '/login.html'
+      template: SRC_DIR + '/login.html',
+      inject:false
     }),
     new CopyWebpackPlugin([
     // relative path is from src
