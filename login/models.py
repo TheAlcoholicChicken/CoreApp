@@ -13,15 +13,25 @@ def generate_default():
 
 # Create your models here.
 class UsersCollection(models.Model):
-    user_id = models.CharField(max_length=100, blank=False, unique=True, default=generate_default)
-    user_profile_link = models.URLField(null=True)  # first_name + last_name(camelcase)
+    user_id = models.CharField(max_length=100, blank=False, unique=True,
+                               default=generate_default)
+    user_profile_link = models.URLField(
+        null=True)  # first_name + last_name(camelcase)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    profile_picture_url = models.URLField(null=True)  # ImageField? or standard char/text field
+    profile_picture_url = models.URLField(
+        null=True)  # ImageField? or standard char/text field
     description = models.TextField(null=True)
 
     def __str__(self):
         return self.user_id
+
+    def GET_FIELD(self):
+        fields = UsersCollection._meta.get_fields()
+        short_fields = []
+        for i in fields:
+            short_fields.append(i.__str__().split('.')[-1])
+        return short_fields
 
     def get_full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
@@ -36,7 +46,7 @@ class UsersCollection(models.Model):
                 last_name__icontains=terms)
             query_list = []
             for row in query:
-                query_list.append('%s %s' % (row.first_name, row.last_name))
+                query_list.append('%s %s %s' % (row.user_id, row.first_name, row.last_name))
             return query_list
         else:
             return UsersCollection.objects.filter(
@@ -46,33 +56,40 @@ class UsersCollection(models.Model):
 
     # Add new user to DB for sign-up. Auto-populate links/urls
     # Returns ID (index) of user added to DB
-    def set_user(user_id, first_name, last_name):
+    def set_user(info):
         try:
-            row = UsersCollection(first_name=first_name,
-                                  last_name=last_name)
-            if user_id != '':
-                row.user_id = user_id
+            row = ''
+            if info['user_id'] != '':
+                row, created = UsersCollection.objects.get_or_create(user_id = info['user_id'])
+            else:
+                row = UsersCollection(user_id = generate_default().__str__())
+            data = info['data']
+            row.first_name = data['first_name']
+            row.last_name = data['last_name']
+            row.user_profile_link = info['user_profile_link']
+            row.profile_picture_url = data['profile_picture_url']
+            row.description = data['description']
             row.save()
+            return row.id, not created
         except Exception:
             return 'DB ERROR' + Exception
-        return row.id
 
     # Returns JSON of user data from Users Collection
     # Returns empty json with error text 'User does not exist' for no user
     def get_user_json(user_id):
         user = UsersCollection.objects.filter(user_id=user_id)
         if user.exists() == False:
-            return json.dumps({
+            return {
                 'error': 'User does not exist'
-            })
+            }
         user = user[0]
-        return json.dumps({
+        return {
             'user_id': user.user_id,
             'user_profile_link': user.user_profile_link,
-            'data' : {
+            'data': {
                 'first_name': user.first_name,
                 'last_name': user.last_name,
                 'profile_picture_url': user.profile_picture_url,
                 'description': user.description
             }
-        })
+        }
