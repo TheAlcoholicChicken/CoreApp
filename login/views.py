@@ -88,11 +88,10 @@ def getUserBadges(request):
 def createAccount(request):
     print(str(request.path))
     if request.method == 'POST':
-        form = F.AddUserForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            result, updated = UsersCollection.set_user(form.cleaned_data)
-            return JsonResponse(
-                {'response': result, 'message': 'User row index (Debugging)', 'update': updated})
-        else:
-            return JsonResponse({'response': 'invalid form'})
+        data = json.loads(request.body.decode('utf-8'))
+        print('request body:', data)
+        result, updated = UsersCollection.set_user(data)
+        return JsonResponse(
+            {'response': result, 'message': 'User row index (Debugging)', 'update': updated})
+    else:
+        return JsonResponse({'response': 'invalid form'})

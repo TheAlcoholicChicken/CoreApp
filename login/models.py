@@ -56,18 +56,19 @@ class UsersCollection(models.Model):
 
     # Add new user to DB for sign-up. Auto-populate links/urls
     # Returns ID (index) of user added to DB
-    def set_user(data):
+    def set_user(info):
         try:
             row = ''
-            if data.get('userid') != '':
-                row, created = UsersCollection.objects.get_or_create(user_id = data.get('userid'))
+            if info['user_id'] != '':
+                row, created = UsersCollection.objects.get_or_create(user_id = info['user_id'])
             else:
                 row = UsersCollection(user_id = generate_default().__str__())
-            row.first_name = data.get('firstname')
-            row.last_name = data.get('lastname')
-            row.user_profile_link = data.get('user_profile_link')
-            row.profile_picture_url = data.get('profile_picture_url')
-            row.description = data.get('description')
+            data = info['data']
+            row.first_name = data['first_name']
+            row.last_name = data['last_name']
+            row.user_profile_link = info['user_profile_link']
+            row.profile_picture_url = data['profile_picture_url']
+            row.description = data['description']
             row.save()
             return row.id, not created
         except Exception:
