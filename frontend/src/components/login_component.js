@@ -12,7 +12,7 @@ class login_page extends Component {
     event.preventDefault();
     const data = new FormData(event.target);
 
-    fetch('/api/where am i sending this to', {
+    fetch('/user/login/', {
       method: 'POST',
       body: data,
     });
@@ -21,7 +21,6 @@ class login_page extends Component {
   render() {
       return (
         <form onSubmit={this.handleSubmit}>
-
           <label htmlFor="email">Enter your email</label>
           <input id="email" name="email" type="email" />
 
