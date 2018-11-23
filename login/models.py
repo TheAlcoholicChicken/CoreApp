@@ -78,9 +78,9 @@ class UsersCollection(models.Model):
     def get_user_json(user_id):
         user = UsersCollection.objects.filter(user_id=user_id)
         if user.exists() == False:
-            return json.dumps({
+            return {
                 'error': 'User does not exist'
-            })
+            }
         user = user[0]
         return {
             'user_id': user.user_id,
