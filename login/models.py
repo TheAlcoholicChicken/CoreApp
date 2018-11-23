@@ -58,20 +58,20 @@ class UsersCollection(models.Model):
     # Returns ID (index) of user added to DB
     def set_user(data):
         try:
-            row = UsersCollection(user_id=generate_default().__str__(),
-                                  first_name=data.get('firstname'),
-                                  last_name=data.get('lastname'),
-                                  user_profile_link=data.get(
-                                      'user_profile_link'),
-                                  profile_picture_url=data.get(
-                                      'profile_picture_url'),
-                                  description=data.get('description'))
+            row = ''
             if data.get('userid') != '':
-                row.user_id = data.get('user_id')
+                row, created = UsersCollection.objects.get_or_create(user_id = data.get('userid'))
+            else:
+                row = UsersCollection(user_id = generate_default().__str__())
+            row.first_name = data.get('firstname')
+            row.last_name = data.get('lastname')
+            row.user_profile_link = data.get('user_profile_link')
+            row.profile_picture_url = data.get('profile_picture_url')
+            row.description = data.get('description')
             row.save()
+            return row.id, not created
         except Exception:
             return 'DB ERROR' + Exception
-        return row.id
 
     # Returns JSON of user data from Users Collection
     # Returns empty json with error text 'User does not exist' for no user
