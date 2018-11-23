@@ -1,17 +1,37 @@
 import React, {Component} from 'react';
-import '../styles/styles.css'
+import '../styles/login.css'
 
 
-class user_profile extends Component {
-    render() {
-        return (
-            <div className="login-fields">
-                <input type={'email'} placeholder={"Enter your email."}></input>
-                <input type={'password'}></input>
-                <button type={'submit'}>Submit</button>
-            </div>
-        );
-    }
+class login_page extends Component {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+
+    fetch('/api/where am i sending this to', {
+      method: 'POST',
+      body: data,
+    });
+  }
+
+  render() {
+      return (
+        <form onSubmit={this.handleSubmit}>
+
+          <label htmlFor="email">Enter your email</label>
+          <input id="email" name="email" type="email" />
+
+          <label htmlFor="password">Enter password</label>
+          <input id="password" name="password" type="text" required/>
+
+          <button>Send data!</button>
+        </form>
+      );
+  }
 }
 
-export default user_profile;
+export default login_page;

@@ -35,7 +35,13 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: SRC_DIR + '/index.html'
+      filename: 'index.html',
+      template: SRC_DIR + '/index.html',
+      inject:true
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'login.html',
+      template: SRC_DIR + '/login.html'
     }),
     new CopyWebpackPlugin([
     // relative path is from src
