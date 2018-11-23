@@ -25,12 +25,16 @@ class user_description extends Component {
             })
         )
     }
+
     render() {
         return (
             <div className="user-description">
-                <h1>
-                    This is for the user's description
-                </h1>
+                <div className={'user-name'}>
+                    <h1>{this.state.firstName} {this.state.lastName}</h1>
+                </div>
+                <div className={'description'}>
+                    {this.state.userDescription}
+                </div>
             </div>
         );
     }
