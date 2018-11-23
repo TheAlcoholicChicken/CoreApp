@@ -9,8 +9,9 @@ from .models import UsersCollection
 from . import forms as F
 
 # Global Constants
-__TOKEN = 'G5NIJdnKD7CyuPsy1zi4euipxnNhc0WJwGd8qJHS4XA'
-__LOGIN_URL = 'https://management-system-api.herokuapp.com/'
+__TOKEN = 'fAAPH9QRF4AAvGn870kTJaKGKsMcNRBtfWZr7zOj4qQ'
+__LOGIN_URL = 'https://management-system-api.herokuapp.com/user/login/'
+__BADGE_URL = 'https://management-system-api.herokuapp.com/user/get_badges/'
 
 
 # Create your views here.
@@ -27,26 +28,25 @@ def login(request):
         if form.is_valid():
             print(form.cleaned_data)
             response = requests.post(__LOGIN_URL,
-                                     body={'user_email': form.user_email,
+                                     data={'user_email': form.user_email,
                                            'password': form.password,
                                            'token': __TOKEN})
-            if response.json()[
-                'success'] == 'True':  # if success, redirect to landing page
+            if response.json()['success'] == 'True':  # if success, redirect to landing page
                 return render(request, 'index.html')
             else:
                 return JsonResponse({'response': response.json()['success']})
 
 
 @csrf_exempt
-def getUserDetail(request):
+def getUser(request):
     print(str(request.path))
     if request.method == 'GET':
         userid = request.path.split('/')[-1]
-        print('User data to retrieve:', userid)
+        print('getUser|user_id', userid)
         return JsonResponse(UsersCollection.get_user_json(userid))
     elif request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
-        print('getUserDetail|request.body:', data)
+        print('getUser|request.body:', data)
         result = '\n'.join(UsersCollection.search_user(data['search']))
         if result == '':
             return JsonResponse({'response': 'no users'})
@@ -57,9 +57,15 @@ def getUserDetail(request):
         return JsonResponse({'response': 'invalid form'})
 
 
-#TODO Implement badges requets handling
 @csrf_exempt
 def getUserBadges(request):
+    print(str(request.path))
+    if request.method == 'GET':
+        userid = request.path.split('/')[-3]
+        print('getUserBadges|',userid)
+        response = requests.post(__BADGE_URL, data={'user_id':userid,'token':__TOKEN})
+        print('getUserBadges|response.json()',response.json())
+        return JsonResponse(response.json())
     return JsonResponse({'response': 'Not implemented'})
 
 
