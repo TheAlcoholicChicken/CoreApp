@@ -17,12 +17,13 @@ __BADGE_URL = 'https://management-system-api.herokuapp.com/user/get_badges/'
 # Create your views here.
 def index(request):
     # TODO: render login.html
-    return render(request, 'login.html')
+    return render(request, 'index.html')
 
 #TODO Implement login request and response
 @csrf_exempt
 def login(request):
     print(str(request.path))
+    return render(request, 'index.html')
     if request.method == 'POST':
         form = F.LoginUserForm(request.POST)
         if form.is_valid():

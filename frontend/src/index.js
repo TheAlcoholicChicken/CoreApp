@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import SearchBar from './components/search_bar'
 import UserBadges from './components/badge_section'
 import ProfilePicture from './components/profile_picture'
 import UserDescription from './components/user_descripion'
 import Footer from './components/footer'
 import * as serviceWorker from './serviceWorker';
+// import './index.css';
 import './styles/styles.css'
 
 ReactDOM.render(
     <div className={'app-body container'}>
         <SearchBar/>
-        <ProfilePicture/>
+        {/*<ProfilePicture/>*/}
         <UserBadges />
         <UserDescription/>
         <Footer/>
