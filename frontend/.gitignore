@@ -11,8 +11,12 @@
 # Ignore the public folder
 # /public
 
+
 # production
 /build
+
+# node module ignore
+/node_module
 
 # misc
 .DS_Store
