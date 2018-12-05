@@ -12,9 +12,20 @@ class login_page extends Component {
     event.preventDefault();
     const data = new FormData(event.target);
 
+    console.log("Requesting login")
     fetch('/user/login/', {
       method: 'POST',
       body: data,
+    }).then(response => {
+        console.log(response)
+        return response.json()
+    }).then(response => {
+        console.log(response)
+        if ("Login successful." == response["response"] && response["user_id"] != "") {
+            window.location.href = window.location.href + response["url"]
+        } else {
+            alert(response["response"])
+        }
     });
   }
 
