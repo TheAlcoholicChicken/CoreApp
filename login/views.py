@@ -117,31 +117,27 @@ def updateAccount(request):
     else:
         return JsonResponse({'response': 'invalid form'})
 
-#TODO Send create account to Management API
+
 @csrf_exempt
 def createAccount(request):
     print(str(request.path))
     if request.method == 'POST':
-        form = F.LoginUserForm(request.POST)
-        if form.is_valid():
-            print('login|form.cleaned_data', form.cleaned_data)
-            form = form.cleaned_data
-            response = requests.post(__CREATE_ACCOUNT_URL,
-                                     data={'user_email': form['email'],
-                                           'password': form['password'],
-                                           'token': __TOKEN})
-            if response.status_code == 400:
-                return JsonResponse({'msg': response.json()['msg']})
-            elif response.status_code == 200 and response.json()['user_id'] != '':
-                print('login|response.json()', response.json()['user_id'])
-                msg = response.json()['msg']
-                user_id = response.json()['user_id']
-                return JsonResponse({'msg': msg, 'user_id': user_id})
-            else:
-                msg = 'Management API not up or no response'
-                print('login|', msg)
-                return JsonResponse({'msg': msg})
+        data = json.loads(request.body.decode('utf-8'))
+        print('createAccount|request.body:', data)
+        response = requests.post(__CREATE_ACCOUNT_URL,
+                                 data={'user_email': data['user_email'],
+                                       'password': data['password'],
+                                       'token': __TOKEN})
+        if response.status_code == 400:
+            return JsonResponse({'msg': response.json()['msg']})
+        elif response.status_code == 200 and response.json()['user_id'] != '':
+            print('login|response.json()', response.json()['user_id'])
+            msg = response.json()['msg']
+            user_id = response.json()['user_id']
+            return JsonResponse({'msg': msg, 'user_id': user_id})
         else:
-            return JsonResponse({'response': 'invalid form'})
+            msg = 'Management API not up or no response'
+            print('login|', msg)
+            return JsonResponse({'msg': msg})
     else:
         return JsonResponse({'response': 'Not a post request'})
