@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../styles/styles.css'
 import axios from 'axios'
+import {Avatar, Text} from 'evergreen-ui'
 
 class Badge extends React.Component {
     render() {
@@ -16,10 +17,21 @@ class Badge extends React.Component {
 
 class user_badge extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            badge: []
+            badge: [{
+                app_name: "Hangman",
+                app_url: "",
+                app_icon: "https://i.pinimg.com/originals/af/41/cb/af41cbe06748a6f631139915a810e2f6.png", // url to image
+                badge_text: "5%th in Hangman"
+            }, {
+                app_name: "Quiz",
+                app_url: "",
+                app_icon: "https://i.pinimg.com/originals/af/41/cb/af41cbe06748a6f631139915a810e2f6.png", // url to image
+                badge_text: "8%th in Quizapp"
+            }
+            ]
         }
     }
 
@@ -31,20 +43,31 @@ class user_badge extends Component {
         ).catch(error => {
             console.log(error)
         });
+
     }
 
     renderBadge() {
-        this.state.badge.map((item, index) => {
-            return <li key={index}>{item}</li>
+        let badgeElement = [];
+        this.state.badge.map ((badge) => {
+            badgeElement.push(
+            <li className={'badge-element'}>
+                <Avatar
+                    size={50}
+                    src={badge.app_icon}
+                />
+                <Text>{badge.badge_text}</Text>
+            </li>)
         });
+        return badgeElement;
     }
 
     render() {
         return (
             <div className="badge-section">
-                <h1>
+                <ul className={"badges"}>
+
                     {this.renderBadge()}
-                </h1>
+                </ul>
             </div>
         );
     }

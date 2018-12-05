@@ -12,10 +12,10 @@ from . import forms as F
 __TOKEN = 'fAAPH9QRF4AAvGn870kTJaKGKsMcNRBtfWZr7zOj4qQ'
 __LOGIN_URL = 'https://management-system-api.herokuapp.com/user/login/'
 __BADGE_URL = 'https://management-system-api.herokuapp.com/user/get_badges/'
+__CREATE_ACCOUNT_URL = 'https://management-system-api.herokuapp.com/user/create_account'
 
 
 # Create your views here.
-
 # returns login page for http get requests
 def login_page(request):
     return render(request, 'login.html')
@@ -44,17 +44,17 @@ def login(request):
                                            'password': form['password'],
                                            'token': __TOKEN})
             if response.status_code == 400:
-                return JsonResponse({'response': response.json()['msg']})
+                return JsonResponse({'msg': response.json()['msg']})
             elif response.status_code == 200 and response.json()['user_id'] != '':
                 print('login|response.json()', response.json()['user_id'])
                 msg = response.json()['msg']
                 user_id = response.json()['user_id']
                 url = 'user/' + user_id
-                return JsonResponse({'response': msg, 'user_id': user_id, 'url': url})
+                return JsonResponse({'msg': msg, 'user_id': user_id, 'url': url})
             else:
                 msg = 'Management API not up or no response'
                 print('login|', msg)
-                return JsonResponse({'response': msg})
+                return JsonResponse({'msg': msg})
         else:
             return JsonResponse({'response': 'invalid form'})
     else:
@@ -86,12 +86,11 @@ def searchUser(request):
             return JsonResponse({'response': 'no users'})
         else:
             print(result)
-            return JsonResponse({'response': result})
+            return JsonResponse({'response': 'users found', 'users': result['users']})
     else:
         return JsonResponse({'response': 'invalid form'})
 
 
-#TODO Managemet needs to follow their API protocols and wrap response under "badges" key
 @csrf_exempt
 def getUserBadges(request):
     print(str(request.path))
@@ -101,16 +100,13 @@ def getUserBadges(request):
         print('getUserBadges|user_id', userid)
         response = requests.post(__BADGE_URL, data={'user_id': userid, 'token': __TOKEN})
         print('getUserBadges|response.json()', response.json())
-        if type(response.json()) is list:
-            return JsonResponse({'badges': response.json()})
-        else:
-            return JsonResponse(response.json())
+        return JsonResponse(response.json())
     else:
         return JsonResponse({'response': 'invalid form'})
 
 
 @csrf_exempt
-def createAccount(request):
+def updateAccount(request):
     print(str(request.path))
     if request.method == 'POST':
         print(request.body.decode('utf-8'))
@@ -121,3 +117,28 @@ def createAccount(request):
             {'response': result, 'message': 'User row index (Debugging)', 'update': updated})
     else:
         return JsonResponse({'response': 'invalid form'})
+
+
+@csrf_exempt
+def createAccount(request):
+    print(str(request.path))
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        print('createAccount|request.body:', data)
+        response = requests.post(__CREATE_ACCOUNT_URL,
+                                 data={'user_email': data['user_email'],
+                                       'password': data['password'],
+                                       'token': __TOKEN})
+        if response.status_code == 400:
+            return JsonResponse({'msg': response.json()['msg']})
+        elif response.status_code == 200 and response.json()['user_id'] != '':
+            print('login|response.json()', response.json()['user_id'])
+            msg = response.json()['msg']
+            user_id = response.json()['user_id']
+            return JsonResponse({'msg': msg, 'user_id': user_id})
+        else:
+            msg = 'Management API not up or no response'
+            print('login|', msg)
+            return JsonResponse({'msg': msg})
+    else:
+        return JsonResponse({'response': 'Not a post request'})
