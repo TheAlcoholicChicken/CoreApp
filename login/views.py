@@ -27,7 +27,11 @@ def profile_page(request):
 
 
 # returns landing page for http get requests
+@csrf_exempt
 def landing_page(request):
+    if request.method == 'POST':
+        print('landing_page|')
+        return getUser(request)
     return render(request, 'index.html')
 
 
