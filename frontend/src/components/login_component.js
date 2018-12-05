@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../styles/login.css';
+import '../styles/login.css'
 
 
 class login_page extends Component {
@@ -20,16 +20,15 @@ class login_page extends Component {
 
   render() {
       return (
-          //<h1> Welcome to BadgeBook!</h1>
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="email">Enter your email</label>
-            <input id="email" name="email" type="email" />
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="email">Enter your email</label>
+          <input id="email" name="email" type="email" />
 
-            <label htmlFor="password">Enter password</label>
-            <input id="password" name="password" type="text" required/>
+          <label htmlFor="password">Enter password</label>
+          <input id="password" name="password" type="text" required/>
 
-            <button>LogIn!</button>
-          </form>
+          <button>Send data!</button>
+        </form>
       );
   }
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import LoginPage from './components/login_component.js';
-import CreateAcc from "./components/create_account.js";
+import LoginPage from './components/login_component.js'
 import './index.css';
 
 import * as serviceWorker from './serviceWorker';
@@ -12,8 +11,6 @@ import './styles/styles.css'
 ReactDOM.render(
     <div className={'app-body container'}>
       <LoginPage />
-      <br/>
-      <CreateAcc />
     </div>
     , document.getElementById('root'));
 
