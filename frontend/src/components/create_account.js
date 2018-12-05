@@ -12,10 +12,13 @@ class create_account extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
-
-    fetch('/user/login/', {
+    var post_request = {};
+    data.forEach((value, key)=>{
+      post_request[key] = value;
+    });
+    fetch('/user/create_account/', {
       method: 'POST',
-      body: data,
+      body: JSON.stringify(post_request),
     });
   }
 

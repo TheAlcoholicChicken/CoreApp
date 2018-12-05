@@ -35,6 +35,7 @@ class UsersCollection(models.Model):
 
     # Returns JSON of user data from Users Collection
     # Returns empty json with error text 'User does not exist' for no user
+    @staticmethod
     def get_user_json(user_id):
         user = UsersCollection.objects.filter(user_id=user_id)
         if user.exists() == False:
@@ -58,6 +59,7 @@ class UsersCollection(models.Model):
 
     # Grabs users by filtering rows in DB for those that match user_id, first_name, last_name
     # Second parameter sets if string list of names to be returned, else QuerySet
+    @staticmethod
     def search_user(terms, id_only=True):
         if (id_only == True):
             query = UsersCollection.objects.filter(user_id__icontains=terms) | \
@@ -80,10 +82,11 @@ class UsersCollection(models.Model):
 
     # Add new user to DB for sign-up. Auto-populate links/urls
     # Returns ID (index) of user added to DB
+    @staticmethod
     def set_user(info):
         try:
             row = ''
-            if info['user_id'] != '':
+            if info['user_id'] != '':  # no user id key when creating user
                 row, created = UsersCollection.objects.get_or_create(user_id = info['user_id'])
             else:
                 row = UsersCollection(user_id = generate_default().__str__())

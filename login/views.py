@@ -113,6 +113,7 @@ def getUserBadges(request):
 def createAccount(request):
     print(str(request.path))
     if request.method == 'POST':
+        print(request.body.decode('utf-8'))
         data = json.loads(request.body.decode('utf-8'))
         print('createAccount|request.body:', data)
         result, updated = UsersCollection.set_user(data)
