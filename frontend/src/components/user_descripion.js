@@ -20,7 +20,9 @@ class user_description extends Component {
     }
 
     componentDidMount() {
-        axios.get('user/something').then(
+        let url = 'user/' + window.location.href.split("/").pop();
+        console.log(url);
+        axios.get(url).then(
             response => this.setState({
                 userId : response.user_id,
                 firstName : response.data.first_name,
@@ -46,16 +48,16 @@ class user_description extends Component {
         }
     }
     render() {
-        {console.log(this.state.edit)}
+        {console.log(this.state.userlogin)}
         if (!this.state.edit) {
             return (
                 <div className="user-description">
+                    {this.renderEditButton()}
                     <Avatar
                         name={this.state.firstName + this.state.lastName}
                         size={250}
                         src={this.state.profilePicture}
                     />
-                    <div className={'edit'}>{this.renderEditButton()}</div>
                     <div className={'user-name'}>
                         <h1>{this.state.firstName} {this.state.lastName}</h1>
                     </div>
