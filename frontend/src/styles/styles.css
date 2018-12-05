@@ -1,64 +1,24 @@
 body {
-    margin:auto;
-    text-align: center;
-}
-
-form.example input[type=text] {
-    padding: 10px;
-    font-size: 17px;
-    border: 1px solid grey;
-    float: left;
-    width: 80%;
-    background: #f1f1f1;
-}
-
-form.example button {
-    float: left;
-    width: 20%;
-    padding: 10px;
-    background: #2196F3;
-    color: white;
-    font-size: 17px;
-    border: 1px solid grey;
-    border-left: none;
-    cursor: pointer;
-}
-
-form.example button:hover {
-    background: #0b7dda;
-}
-
-form.example::after {
-    content: "";
-    clear: both;
-    display: table;
-}
-
-.search-bar {
-    width: 20ch;
-}
-
-.badge-section {
-    background-color: red;
-    border: solid black thick;
+    background-color : #eaeaea;
 }
 
 .user-description {
-    background-color: green;
-    border: solid black thick;
+    background-color: white;
+    box-shadow: 5px 5px 3px #888888;
+    text-align:center;
+    border-radius: 10px;
+    padding: 10px;
+}
+.badges {
+    list-style-type:none;
 }
 
-.profile-picture {
-    background-color: lightblue;
-    border: solid black thick;
+.badge-element{
+    border-bottom: solid 1px lightgray;
 }
 
-.footer-section {
-    background-color: yellow;
-    border: solid black thick;
-}
-
-.app-body {
-    background-color: brown;
-    margin: auto;
+.badge-section {
+    background-color:white;
+    box-shadow: 5px 5px 3px #888888;
+    border-radius: 10px;
 }

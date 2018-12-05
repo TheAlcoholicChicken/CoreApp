@@ -1,10 +1,28 @@
 from django import forms
 
-class UserForm(forms.Form):
+
+# API Request must contain a string
+class SearchForm(forms.Form):
     search = forms.CharField()
 
 
-class AddUserForm(forms.Form):
+# API Request must contain userid
+class UserForm(forms.Form):
     userid = forms.CharField()
-    firstname = forms.CharField()
-    lastname = forms.CharField()
+
+
+# API Request must contain the minimum, firstname and lastname
+# userid, profile link are auto populated
+# random userid created is
+class AddUserForm(forms.Form):
+    userid = forms.CharField(required=False)
+    user_profile_link = forms.URLField(required=False)
+    firstname = forms.CharField(required=True)
+    lastname = forms.CharField(required=True)
+    profile_picture_url = forms.URLField(required=False)
+    description = forms.CharField(widget=forms.Textarea, required=False)
+
+
+class LoginUserForm(forms.Form):
+    email = forms.CharField(required=True)
+    password = forms.CharField(required=True)
