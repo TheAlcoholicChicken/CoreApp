@@ -24,7 +24,7 @@ class login_page extends Component {
         return response.json()
     }).then(response => {
         console.log(response)
-        if ("Login successful." == response["response"] && response["user_id"] != "") {
+        if ("Login successful." == response["msg"] && response["user_id"] != "") {
             window.location.href = window.location.href + response["url"]
         } else {
             alert(response["response"])

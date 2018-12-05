@@ -34,14 +34,12 @@ class UsersCollection(models.Model):
         return short_fields
 
     # Returns JSON of user data from Users Collection
-    # Returns empty json with error text 'User does not exist' for no user
+    # Returns False for no user
     @staticmethod
     def get_user_json(user_id):
         user = UsersCollection.objects.filter(user_id=user_id)
         if user.exists() == False:
-            return {
-                'error': 'User does not exist'
-            }
+            return False
         user = user[0]
         return {
             'user_id': user.user_id,
@@ -80,13 +78,13 @@ class UsersCollection(models.Model):
                 query_list['users'].append(UsersCollection.get_user_json(row.user_id))
             return query_list
 
-    # Add new user to DB for sign-up. Auto-populate links/urls
+    # Add new user or modify to DB. Auto-populate links/urls
     # Returns ID (index) of user added to DB
     @staticmethod
     def set_user(info):
         try:
             row = ''
-            if info['user_id'] != '':  # no user id key when creating user
+            if info['user_id'] != '':
                 row, created = UsersCollection.objects.get_or_create(user_id = info['user_id'])
             else:
                 row = UsersCollection(user_id = generate_default().__str__())

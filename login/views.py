@@ -35,28 +35,24 @@ def landing_page(request):
 def login(request):
     print(str(request.path))
     if request.method == 'POST':
-        form = F.LoginUserForm(request.POST)
-        if form.is_valid():
-            print('login|form.cleaned_data', form.cleaned_data)
-            form = form.cleaned_data
-            response = requests.post(__LOGIN_URL,
-                                     data={'user_email': form['email'],
-                                           'password': form['password'],
-                                           'token': __TOKEN})
-            if response.status_code == 400:
-                return JsonResponse({'msg': response.json()['msg']})
-            elif response.status_code == 200 and response.json()['user_id'] != '':
-                print('login|response.json()', response.json()['user_id'])
-                msg = response.json()['msg']
-                user_id = response.json()['user_id']
-                url = 'user/' + user_id
-                return JsonResponse({'msg': msg, 'user_id': user_id, 'url': url})
-            else:
-                msg = 'Management API not up or no response'
-                print('login|', msg)
-                return JsonResponse({'msg': msg})
+        data = json.loads(request.body.decode('utf-8'))
+        print('login|request.body:', data)
+        response = requests.post(__LOGIN_URL,
+                                 data={'user_email': data['user_email'],
+                                       'password': data['password'],
+                                       'token': __TOKEN})
+        if response.status_code == 400:
+            return JsonResponse({'msg': response.json()['msg']})
+        elif response.status_code == 200 and response.json()['user_id'] != '':
+            print('login|response.json()', response.json()['user_id'])
+            msg = response.json()['msg']
+            user_id = response.json()['user_id']
+            url = 'user/' + user_id
+            return JsonResponse({'msg': msg, 'user_id': user_id, 'url': url})
         else:
-            return JsonResponse({'response': 'invalid form'})
+            msg = 'Management API not up or no response'
+            print('login|', msg)
+            return JsonResponse({'msg': msg})
     else:
         return JsonResponse({'response': 'Not a post request'})
 
@@ -70,7 +66,10 @@ def getUser(request):
         print('getUser|request.body:', data)
         userid = data['user_id']
         print('getUser|user_id', userid)
-        return JsonResponse(UsersCollection.get_user_json(userid))
+        result = UsersCollection.get_user_json(userid)
+        if not result:
+            return JsonResponse({'error': 'User does not exist'})
+        return JsonResponse(result)
     else:
         return JsonResponse({'response': 'invalid form'})
 
@@ -109,9 +108,8 @@ def getUserBadges(request):
 def updateAccount(request):
     print(str(request.path))
     if request.method == 'POST':
-        print(request.body.decode('utf-8'))
         data = json.loads(request.body.decode('utf-8'))
-        print('createAccount|request.body:', data)
+        print('updateAccount|request.body:', data)
         result, updated = UsersCollection.set_user(data)
         return JsonResponse(
             {'response': result, 'message': 'User row index (Debugging)', 'update': updated})
@@ -125,20 +123,33 @@ def createAccount(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         print('createAccount|request.body:', data)
+        # First check Management DB does not contain user:
         response = requests.post(__CREATE_ACCOUNT_URL,
-                                 data={'user_email': data['email'],
+                                 data={'user_email': data['user_email'],
                                        'password': data['password'],
                                        'token': __TOKEN})
         if response.status_code == 400:
             return JsonResponse({'msg': response.json()['msg']})
         elif response.status_code == 200 and response.json()['user_id'] != '':
-            print('login|response.json()', response.json()['user_id'])
+            print('createAccount|response.json()', response.json()['user_id'])
             msg = response.json()['msg']
             user_id = response.json()['user_id']
-            return JsonResponse({'msg': msg, 'user_id': user_id})
+            if UsersCollection.get_user_json(user_id) != False:
+                print('createAccount|UC.get_user_json()', UsersCollection.get_user_json(user_id))
+                return JsonResponse({'msg': 'Something bad happen'}, status=403)
+            info = {"user_id": user_id,
+                    "user_profile_link": "user/" + user_id,
+                    "data": {
+                        "first_name": data['user_email'],
+                        "last_name": data['password'],
+                        "profile_picture_url": "https://imgur.com/gallery/hUbESvH",
+                        "description": ""
+                    }}
+            index, create = UsersCollection.set_user(info)
+            return JsonResponse({'msg': msg, 'user_id': user_id, 'create': not create})
         else:
             msg = 'Management API not up or no response'
-            print('login|', msg)
+            print('createAccount|', msg)
             return JsonResponse({'msg': msg})
     else:
         return JsonResponse({'response': 'Not a post request'})
