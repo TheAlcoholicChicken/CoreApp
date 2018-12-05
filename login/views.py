@@ -101,7 +101,10 @@ def getUserBadges(request):
         print('getUserBadges|user_id', userid)
         response = requests.post(__BADGE_URL, data={'user_id': userid, 'token': __TOKEN})
         print('getUserBadges|response.json()', response.json())
-        return JsonResponse({'badges': response.json()})
+        if type(response.json()) is list:
+            return JsonResponse({'badges': response.json()})
+        else:
+            return JsonResponse(response.json())
     else:
         return JsonResponse({'response': 'invalid form'})
 
