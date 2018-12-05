@@ -12,6 +12,7 @@ from . import forms as F
 __TOKEN = 'fAAPH9QRF4AAvGn870kTJaKGKsMcNRBtfWZr7zOj4qQ'
 __LOGIN_URL = 'https://management-system-api.herokuapp.com/user/login/'
 __BADGE_URL = 'https://management-system-api.herokuapp.com/user/get_badges/'
+__CREATE_ACCOUNT_URL = 'https://management-system-api.herokuapp.com/user/create_account'
 
 
 # Create your views here.
@@ -43,17 +44,17 @@ def login(request):
                                            'password': form['password'],
                                            'token': __TOKEN})
             if response.status_code == 400:
-                return JsonResponse({'response': response.json()['msg']})
+                return JsonResponse({'msg': response.json()['msg']})
             elif response.status_code == 200 and response.json()['user_id'] != '':
                 print('login|response.json()', response.json()['user_id'])
                 msg = response.json()['msg']
                 user_id = response.json()['user_id']
                 url = 'user/' + user_id
-                return JsonResponse({'response': msg, 'user_id': user_id, 'url': url})
+                return JsonResponse({'msg': msg, 'user_id': user_id, 'url': url})
             else:
                 msg = 'Management API not up or no response'
                 print('login|', msg)
-                return JsonResponse({'response': msg})
+                return JsonResponse({'msg': msg})
         else:
             return JsonResponse({'response': 'invalid form'})
     else:
@@ -119,4 +120,28 @@ def updateAccount(request):
 #TODO Send create account to Management API
 @csrf_exempt
 def createAccount(request):
-    return JsonResponse({'response': 'To be inplemented'})
+    print(str(request.path))
+    if request.method == 'POST':
+        form = F.LoginUserForm(request.POST)
+        if form.is_valid():
+            print('login|form.cleaned_data', form.cleaned_data)
+            form = form.cleaned_data
+            response = requests.post(__CREATE_ACCOUNT_URL,
+                                     data={'user_email': form['email'],
+                                           'password': form['password'],
+                                           'token': __TOKEN})
+            if response.status_code == 400:
+                return JsonResponse({'msg': response.json()['msg']})
+            elif response.status_code == 200 and response.json()['user_id'] != '':
+                print('login|response.json()', response.json()['user_id'])
+                msg = response.json()['msg']
+                user_id = response.json()['user_id']
+                return JsonResponse({'msg': msg, 'user_id': user_id})
+            else:
+                msg = 'Management API not up or no response'
+                print('login|', msg)
+                return JsonResponse({'msg': msg})
+        else:
+            return JsonResponse({'response': 'invalid form'})
+    else:
+        return JsonResponse({'response': 'Not a post request'})
