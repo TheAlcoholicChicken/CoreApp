@@ -36,7 +36,7 @@ class user_badge extends Component {
     }
 
     componentDidMount() {
-        axios.post('user/get_badges', {
+        axios.post('user/*student_id*/get_badges', {
             user_id : 'something'
         }).then(
             response => this.setState({badge: response.badges})
