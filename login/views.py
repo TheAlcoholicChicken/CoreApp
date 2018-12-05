@@ -49,7 +49,7 @@ def login(request):
                 print('login|response.json()', response.json()['user_id'])
                 msg = response.json()['msg']
                 user_id = response.json()['user_id']
-                url = 'user/' + user_id + '/'
+                url = 'user/' + user_id
                 return JsonResponse({'response': msg, 'user_id': user_id, 'url': url})
             else:
                 msg = 'Management API not up or no response'

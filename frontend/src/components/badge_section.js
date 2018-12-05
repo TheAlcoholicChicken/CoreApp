@@ -24,8 +24,8 @@ class user_badge extends Component {
     }
 
     componentDidMount() {
-        axios.post('user/get_badges', {
-            user_id : 'something'
+        axios.post('get_badges/', {
+            user_id : window.location.href.split("/").pop()
         }).then(
             response => this.setState({badge: response.badges})
         ).catch(error => {
