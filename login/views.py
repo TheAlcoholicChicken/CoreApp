@@ -126,7 +126,7 @@ def createAccount(request):
         data = json.loads(request.body.decode('utf-8'))
         print('createAccount|request.body:', data)
         response = requests.post(__CREATE_ACCOUNT_URL,
-                                 data={'user_email': data['user_email'],
+                                 data={'user_email': data['email'],
                                        'password': data['password'],
                                        'token': __TOKEN})
         if response.status_code == 400:
