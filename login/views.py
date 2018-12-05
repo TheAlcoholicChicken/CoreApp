@@ -33,7 +33,6 @@ def landing_page(request):
 @csrf_exempt
 def login(request):
     print(str(request.path))
-    return render(request, 'index.html')
     if request.method == 'POST':
         form = F.LoginUserForm(request.POST)
         if form.is_valid():
@@ -86,12 +85,11 @@ def searchUser(request):
             return JsonResponse({'response': 'no users'})
         else:
             print(result)
-            return JsonResponse({'response': result})
+            return JsonResponse({'response': 'users found', 'users': result['users']})
     else:
         return JsonResponse({'response': 'invalid form'})
 
 
-#TODO Managemet needs to follow their API protocols and wrap response under "badges" key
 @csrf_exempt
 def getUserBadges(request):
     print(str(request.path))
@@ -101,16 +99,13 @@ def getUserBadges(request):
         print('getUserBadges|user_id', userid)
         response = requests.post(__BADGE_URL, data={'user_id': userid, 'token': __TOKEN})
         print('getUserBadges|response.json()', response.json())
-        if type(response.json()) is list:
-            return JsonResponse({'badges': response.json()})
-        else:
-            return JsonResponse(response.json())
+        return JsonResponse(response.json())
     else:
         return JsonResponse({'response': 'invalid form'})
 
 
 @csrf_exempt
-def createAccount(request):
+def updateAccount(request):
     print(str(request.path))
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
@@ -120,3 +115,8 @@ def createAccount(request):
             {'response': result, 'message': 'User row index (Debugging)', 'update': updated})
     else:
         return JsonResponse({'response': 'invalid form'})
+
+#TODO Send create account to Management API
+@csrf_exempt
+def createAccount(request):
+    return JsonResponse({'response': 'To be inplemented'})

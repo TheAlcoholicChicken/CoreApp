@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.login_page, name="login_page"), # Get page
     re_path(r'^user/profile/\w+', views.profile_page), # Get page
     re_path(r'^user/get_badges/', views.getUserBadges, name='getBadges'), # Post only
+    re_path(r'^user/update_account/', views.updateAccount, name="updateAccount"), # Post only
     re_path(r'^user/create_account/', views.createAccount, name="createAccount"), # Post only
     re_path(r'^user/search_user/', views.searchUser, name='searchUser'), # Post only
     re_path(r'^user/login/', views.login, name='login'), # Post only
