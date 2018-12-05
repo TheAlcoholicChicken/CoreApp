@@ -66,7 +66,7 @@ class UsersCollection(models.Model):
                     UsersCollection.objects.filter(description__icontains=terms)
             query_list = {'users': []}
             for row in query:
-                query_list['users'].append(row.user_id)
+                query_list['users'].append({"user_id": row.user_id})
             return query_list
         else: # returns a list of user jsons
             query = UsersCollection.objects.filter(user_id__icontains=terms) | \
