@@ -15,15 +15,27 @@ __BADGE_URL = 'https://management-system-api.herokuapp.com/user/get_badges/'
 
 
 # Create your views here.
-def index(request):
-    # TODO: render login.html
+
+# returns login page for http get requests
+def login_page(request):
     return render(request, 'login.html')
+
+# returns profile page for http get requests
+def profile_page(request):
+    return render(request, 'profile.html')
+
+# returns landing page for http get requests
+def landing_page(request):
+    return render(request, 'landing.html')
+
 
 #TODO Implement login request and response
 @csrf_exempt
 def login(request):
     print(str(request.path))
-    if request.method == 'POST':
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    elif request.method == 'POST':
         form = F.LoginUserForm(request.POST)
         if form.is_valid():
             print('login|form.cleaned_data',form.cleaned_data)
@@ -43,6 +55,7 @@ def login(request):
         return JsonResponse({'response': 'Not a post request'})
 
 
+#TODO implement try catch to clear errors when directed to user/
 @csrf_exempt
 def getUser(request):
     print(str(request.path))
@@ -63,15 +76,19 @@ def getUser(request):
         return JsonResponse({'response': 'invalid form'})
 
 
+#TODO try catch block incase maanagement goes offline
 @csrf_exempt
 def getUserBadges(request):
     print(str(request.path))
     if request.method == 'GET':
         userid = request.path.split('/')[-3]
         print('getUserBadges|',userid)
-        response = requests.post(__BADGE_URL, data={'user_id':userid,'token':__TOKEN})
-        print('getUserBadges|response.json()',response.json())
-        return JsonResponse(response.json())
+        try:
+            response = requests.post(__BADGE_URL, data={'user_id':userid,'token':__TOKEN})
+            print('getUserBadges|response.json()',response.json())
+            return JsonResponse(response.json())
+        except:
+            return JsonResponse({'response': 'Not implemented'})
     return JsonResponse({'response': 'Not implemented'})
 
 
