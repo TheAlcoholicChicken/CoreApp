@@ -38,7 +38,7 @@ def login(request):
         data = json.loads(request.body.decode('utf-8'))
         print('login|request.body:', data)
         response = requests.post(__LOGIN_URL,
-                                 data={'user_email': data['user_email'],
+                                 data={'user_email': data['email'],
                                        'password': data['password'],
                                        'token': __TOKEN})
         if response.status_code == 400:
@@ -125,7 +125,7 @@ def createAccount(request):
         print('createAccount|request.body:', data)
         # First check Management DB does not contain user:
         response = requests.post(__CREATE_ACCOUNT_URL,
-                                 data={'user_email': data['user_email'],
+                                 data={'user_email': data['email'],
                                        'password': data['password'],
                                        'token': __TOKEN})
         if response.status_code == 400:
@@ -140,7 +140,7 @@ def createAccount(request):
             info = {"user_id": user_id,
                     "user_profile_link": "user/" + user_id,
                     "data": {
-                        "first_name": data['user_email'],
+                        "first_name": data['email'],
                         "last_name": data['password'],
                         "profile_picture_url": "https://imgur.com/gallery/hUbESvH",
                         "description": ""
