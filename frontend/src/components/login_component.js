@@ -11,11 +11,14 @@ class login_page extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
-
+    var request_body = {};
     console.log("Requesting login")
+    data.forEach((value, key)=>{
+      request_body[key] = value;
+    });
     fetch('/user/login/', {
       method: 'POST',
-      body: data,
+      body: JSON.stringify(request_body),
     }).then(response => {
         console.log(response)
         return response.json()
