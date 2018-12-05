@@ -16,7 +16,7 @@ class search_bar extends Component {
         alert(this.state.searchQuery);
         console.log(this.state.searchQuery);
         let data = this.state.searchQuery;
-        axios.post('/user/', {'search' : data}).then(response => this.setState({data: response.response}))
+        axios.post('/user/', {'search' : data}).then(res => this.setState({data: res.users}))
     }
 
 
@@ -25,19 +25,20 @@ class search_bar extends Component {
             search: this.state.searchQuery
         }).then(
             response => {
-                this.setState({searchItems: response.data.users})
+                this.setState({searchItems: response.users})
             }
         );
         console.log(this.state.searchItems);
     }
 
     render() {
+        let searchDropdownItems = this.state.searchItems;
         return (
             <div className="search-bar">
               <form className="example">
                 {/*<input id='search' value={this.state.searchQuery} type="text" placeholder="Search.." name="search" onChange={this.setQuery}/>*/}
                 <Combobox
-                  items={this.state.searchItems}
+                  items={searchDropdownItems}
                   onChange={e=> this.setState({searchItems: e.target.value})}
                   placeholder="Users"
                   autocompleteProps={{
