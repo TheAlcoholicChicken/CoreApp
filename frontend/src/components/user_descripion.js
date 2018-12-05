@@ -78,7 +78,7 @@ class user_description extends Component {
     componentDidMount() {
         let url = window.location.href.split("/").pop();
         console.log(url);
-        axios.post("alsdhkajsd", {
+        axios.post(url, {
             user_id: window.location.href.split("/").pop()
         }).then(
             response => this.setState({
