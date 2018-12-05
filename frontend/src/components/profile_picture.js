@@ -6,7 +6,6 @@ class user_profile extends Component {
     render() {
         return (
             <div className="profile-picture">
-                Profile Image
             </div>
         );
     }
