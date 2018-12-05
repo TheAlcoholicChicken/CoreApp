@@ -19,22 +19,6 @@ class user_description extends Component {
 
     }
 
-    componentDidMount() {
-        let url = 'user/' + window.location.href.split("/").pop();
-        console.log(url);
-        axios.get(url).then(
-            response => this.setState({
-                userId : response.user_id,
-                firstName : response.data.first_name,
-                lastName : response.data.last_name,
-                profilePicture : response.data.profile_picture,
-                userDescription : response.data.description
-            })
-        ).catch(error => {
-            console.log(error);
-        });
-    }
-
     renderEditButton() {
         if (this.state.userlogin) {
             return (
@@ -47,6 +31,7 @@ class user_description extends Component {
             );
         }
     }
+
     render() {
         {console.log(this.state.userlogin)}
         if (!this.state.edit) {
@@ -88,6 +73,25 @@ class user_description extends Component {
                     />
                 </div>
             )}
+    }
+    componentDidMount() {
+        let url = 'user/' + window.location.href.split("/").pop();
+        console.log(url);
+        axios.get(url).then(
+
+            response => this.setState({
+                userId : response.data.user_id,
+                firstName : response.data.data.first_name,
+                lastName : response.data.data.last_name,
+                profilePicture : response.data.data.profile_picture,
+                userDescription : response.data.data.description
+            })
+
+
+    ).catch(error => {
+            console.log(error);
+        });
+        console.log(this.state.firstName)
     }
 }
 
