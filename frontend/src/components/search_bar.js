@@ -24,6 +24,16 @@ class search_bar extends Component {
         );
     }
 
+    changePages(url) {
+        axios.post('/user/search_user/', {
+            search: url,
+            id_only: false
+        }).then (
+            res => {
+                window.location.replace(res.data.users[0].user_profile_link);
+            }
+        )
+    }
     render() {
         let searchDropdownItems = this.state.searchItems;
         let searchNames = [];
@@ -38,7 +48,7 @@ class search_bar extends Component {
                 {/*<input id='search' value={this.state.searchQuery} type="text" placeholder="Search.." name="search" onChange={this.setQuery}/>*/}
                 <Combobox
                   items={searchNames}
-                  onChange={e=> console.log(e)}
+                  onChange={e=> this.changePages(e)}
                   placeholder="Users"
                   autocompleteProps={{
                     // Used for the title in the autocomplete.
