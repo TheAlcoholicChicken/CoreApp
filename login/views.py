@@ -144,8 +144,8 @@ def createAccount(request):
             info = {"user_id": user_id,
                     "user_profile_link": "user/" + user_id,
                     "data": {
-                        "first_name": "",
-                        "last_name": "",
+                        "first_name": data['firstname'],
+                        "last_name": data['lastname'],
                         "profile_picture_url": "https://imgur.com/gallery/hUbESvH",
                         "description": ""
                     }}

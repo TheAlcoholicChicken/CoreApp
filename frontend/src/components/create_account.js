@@ -54,6 +54,12 @@ class create_account extends Component {
             <label htmlFor="password">Please confirm password</label>
             <input id="password" name="confirmPassword" type="text" required/>
 
+            <label htmlFor="firstname">Enter your firstname</label>
+            <input id="firstname" name="firstname" type="text" />
+
+            <label htmlFor="lastname">Enter your lastname</label>
+            <input id="lastname" name="lastname" type="text" />
+
             <button>Create Account!</button>
           </form>
 
