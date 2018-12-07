@@ -6,7 +6,7 @@ import './index.css';
 
 import * as serviceWorker from './serviceWorker';
 import './styles/styles.css'
-
+import LandingComponennt from './components/landing.js'
 
 
 ReactDOM.render(
@@ -14,6 +14,7 @@ ReactDOM.render(
       <LoginPage />
       <br/>
       <CreateAcc />
+        <LandingComponennt/>
     </div>
     , document.getElementById('root'));
 

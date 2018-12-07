@@ -40,7 +40,6 @@ class login_page extends Component {
 
           <label htmlFor="password">Enter password</label>
           <input id="password" name="password" type="text" required/>
-
           <button>Login</button>
         </form>
       );

@@ -1,25 +1,17 @@
 import React, {Component} from 'react';
 import '../styles/styles.css'
-import {Text} from 'evergreen-ui'
+import {Text, Avatar} from 'evergreen-ui'
 
 class footer extends Component {
+
+    redirect(url) {
+        window.location.replace(url)
+    }
+
     render() {
         return (
-            <div className={'footer-section'}>
-                <Text>
-                    <ul>
-                        <li>
+            <div>
 
-                        </li>
-                        <li>
-
-                        </li>
-                        <li>
-
-                        </li>
-
-                    </ul>
-                </Text>
             </div>
         );
     }

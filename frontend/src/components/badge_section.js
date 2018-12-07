@@ -46,6 +46,10 @@ class user_badge extends Component {
         });
     }
 
+
+    redirect(url) {
+        window.location.replace(url)
+    }
     renderBadge() {
         let badgeElement = [];
         console.log(this.state.badge);
@@ -53,10 +57,12 @@ class user_badge extends Component {
             this.state.badge.map((badge) => {
                 badgeElement.push(
                     <li className={'badge-element'}>
+                        <a href={badge.app_url}>
                         <Avatar
                             size={50}
                             src={badge.app_icon}
                         />
+                        </a>
                         <Text>{badge.badge_text}</Text>
                     </li>)
             });
